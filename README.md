@@ -14,6 +14,21 @@ Now, just the bare bones to start.
 ## Usage
 
 ```shell
+snq is a simple N-Queen Problem solver.
+Usage: snq [OPTIONS] SIZE_OF_SIDE
+
+Options:
+    -h,--help   -- display help and exit
+    --version   -- display version and exit
+    -o [FILE]   -- output to file
+
+Examples:
+snq 4           -- solve 4x4 board
+
+snq -o out 8    -- solve 8x8 board, output to out
+
+Report bugs to <cpmachado@protonmail.com> or
+file a issue at https://github.com/cpmachado/cpa
 ```
 
 
