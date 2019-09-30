@@ -9,7 +9,8 @@ is learning how to code.
 
 ## Current status
 
-Now, just the bare bones to start.
+Solution prints numeric solution from 0 - 7 indexed the position of queen in a
+given column.
 
 ## Usage
 
@@ -30,6 +31,11 @@ snq -o out 8    -- solve 8x8 board, output to out
 Report bugs to <cpmachado@protonmail.com> or
 file a issue at https://github.com/cpmachado/cpa
 ```
+
+
+## On structure and the rational
+
+To be written
 
 
 ## LICENSE

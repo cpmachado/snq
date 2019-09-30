@@ -4,11 +4,70 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAXSIDE 8
+
+
+int
+validrow(int *way, int k) {
+	int i;
+
+	for (i = 0; i < k; i++) {
+		if (way[i] == way[k]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+
+int
+validdiag(int *way, int k) {
+	int i;
+
+	for (i = 0; i < k; i++) {
+		if (abs(way[i] - way[k]) == (k-i)) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+
+void
+snqt(FILE* f, int* way, int k, int n) {
+	int i;
+
+	if (k == n) {
+		for (i = 0; i < n; i++) {
+			fprintf(f, "%d", way[i]);
+		}
+		fprintf(f, "\n");
+		return;
+	}
+
+	for (i = 0; i < n; i++) {
+		way[k] = i;
+		if (validrow(way, k) && validdiag(way, k)) {
+			snqt(f, way, k + 1, n);
+		}
+	}
+
+}
+
+void
+snq(FILE* f, int* way, int n) {
+	int i;
+
+	for (i = 0; i < n; i++) {
+		way[0] = i;
+		snqt(f, way, 1, n);
+	}
+}
 
 void
 usage(void) {
 	fprintf(stdout, "snq is a simple N-Queen Problem solver.\n");
-	fprintf(stdout, "Usage: snq [OPTIONS] SIZE_OF_SIDE\n\n");
+	fprintf(stdout, "Usage: snq [OPTIONS] SIZE_OF_SIDE(1-8)\n\n");
 
 	fprintf(stdout, "Options:\n");
 	fprintf(stdout, "    -h,--help   -- display help and exit\n");
@@ -33,14 +92,17 @@ version(void) {
 int
 main(int argc, char *argv[]) {
 	int c;
-	FILE *out = stdout;
+	FILE *f = stdout;
+	int way[MAXSIDE] = {0};
+	int n = 0;
 
 	while (--argc > 0 && (*++argv)[0] ==  '-') {
 		while ((c = *++argv[0])) {
 			switch (c) {
 				case 'o':
 					++argv;
-					if (!(out = fopen(*argv, "w"))) {
+					--argc;
+					if (!(f = fopen(*argv, "w"))) {
 						fprintf(stderr, "Failed to open %s\n", *argv);
 						exit(1);
 					}
@@ -63,7 +125,7 @@ main(int argc, char *argv[]) {
 					usage();
 					exit(1);
 			}
-			if (out != stdout) {
+			if (f != stdout) {
 				break;
 			}
 		}
@@ -74,7 +136,15 @@ main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	fclose(out);
+	n = atoi(*argv);
+	if (n < 1 || n > 8) {
+		usage();
+		exit(1);
+	}
+
+	snq(f, way, n);
+
+	fclose(f);
 	return 0;
 }
 
