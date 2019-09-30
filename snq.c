@@ -8,24 +8,11 @@
 
 
 int
-validrow(int *way, int k) {
+queenattacks(int *way, int k) {
 	int i;
 
 	for (i = 0; i < k; i++) {
-		if (way[i] == way[k]) {
-			return 0;
-		}
-	}
-	return 1;
-}
-
-
-int
-validdiag(int *way, int k) {
-	int i;
-
-	for (i = 0; i < k; i++) {
-		if (abs(way[i] - way[k]) == (k-i)) {
+		if ((way[i] == way[k]) || (abs(way[i] - way[k]) == (k-i))) {
 			return 0;
 		}
 	}
@@ -47,7 +34,7 @@ snqt(FILE* f, int* way, int k, int n) {
 
 	for (i = 0; i < n; i++) {
 		way[k] = i;
-		if (validrow(way, k) && validdiag(way, k)) {
+		if (queenattacks(way, k)) {
 			snqt(f, way, k + 1, n);
 		}
 	}
@@ -84,8 +71,8 @@ usage(void) {
 
 void
 version(void) {
-	fprintf(stdout, "snq " VERSION "\n\n");
-	fprintf(stdout, "Copyright (C) 2019 Carlos Pinto Machado\n\n");
+	fprintf(stdout, "snq " VERSION "\n");
+	fprintf(stdout, "Copyright (C) 2019 Carlos Pinto Machado\n");
 	fprintf(stdout, "Written by Carlos A. Pinto Machado\n");
 }
 
