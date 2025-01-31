@@ -4,7 +4,6 @@ VERSION = 0.2.0
 CC = gcc
 CFLAGS = -W -Wall -pedantic -std=c99 -g
 CPPFLAGS = -DVERSION=\"$(VERSION)\"
-HELP2MAN=help2man
 LDFLAGS = -static
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
