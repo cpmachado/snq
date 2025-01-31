@@ -1,18 +1,21 @@
-.TH SNQ "1" "September 2019" "snq 0.2.0" "User Commands"
+.TH SNQ "1" "September 2019" "snq 0.3.0" "User Commands"
 .SH NAME
 snq \- snq
 .SH SYNOPSIS
 .B snq
-[\fI\,OPTIONS\/\fR] \fI\,SIZE_OF_SIDE(1-8)\/\fR
+[\fI\,OPTIONS\/\fR] \fR
 .SH DESCRIPTION
 snq is a simple N\-Queen Problem solver.
 .SH OPTIONS
 .HP
-\fB\-h\fR,\-\-help   \fB\-\-\fR display help and exit
+\fB\-h\fR            \fB\-\fR display help and exit
 .HP
-\fB\-\-version\fR   \fB\-\-\fR display version and exit
+\fB\-v\fR            \fB\-\fR display version and exit
 .HP
-\fB\-o\fR [FILE]   \fB\-\-\fR output to file
+\fB\-n\fR [Number]   \fB\-\fR Length of side, n should be in [1, 8], defaults
+to 8
+.HP
+\fB\-o\fR [FILE]     \fB\-\fR output to file, defaults to stdout
 .SH EXAMPLES
 snq 4           \-\- solve 4x4 board
 .PP
@@ -21,6 +24,6 @@ snq \-o out 8    \-\- solve 8x8 board, output to out
 Written by Carlos A. Pinto Machado
 .SH "REPORTING BUGS"
 Report bugs to <cpmachado@protonmail.com> or
-file a issue at https://github.com/cpmachado/cpa
+file a issue at https://github.com/cpmachado/snq
 .SH COPYRIGHT
 Copyright \(co 2019 Carlos Pinto Machado
