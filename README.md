@@ -1,5 +1,6 @@
 # snq
 
+[![CI](https://github.com/cpmachado/snq/actions/workflows/ci.yml/badge.svg)](https://github.com/cpmachado/snq/actions/workflows/ci.yml)
 
 Simple N Queen  is a minimalistic C implementation that solves the N Queen
 problem.
