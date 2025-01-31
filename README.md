@@ -1,5 +1,6 @@
 # snq
 
+[![CI](https://github.com/cpmachado/snq/actions/workflows/ci.yml/badge.svg)](https://github.com/cpmachado/snq/actions/workflows/ci.yml)
 
 Simple N Queen  is a minimalistic C implementation that solves the N Queen
 problem.
@@ -16,20 +17,13 @@ given column.
 
 ```shell
 snq is a simple N-Queen Problem solver.
-Usage: snq [OPTIONS] SIZE_OF_SIDE
+Usage: snq [OPTIONS]
 
 Options:
-    -h,--help   -- display help and exit
-    --version   -- display version and exit
-    -o [FILE]   -- output to file
-
-Examples:
-snq 4           -- solve 4x4 board
-
-snq -o out 8    -- solve 8x8 board, output to out
-
-Report bugs to <cpmachado@protonmail.com> or
-file a issue at https://github.com/cpmachado/cpa
+    -h          -- display help and exit
+    -v          -- display version and exit
+    -n [NUMBER] -- Length of side(defaults to 8, should be in [1, 8])
+    -o [FILE]   -- output to file(defaults to stdout)
 ```
 
 
