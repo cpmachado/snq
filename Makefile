@@ -42,4 +42,8 @@ uninstall:
 	@echo removing executable file from ${DESTDIR}${PREFIX}/bin
 	@rm -f ${DESTDIR}${PREFIX}/bin/snq
 
-.PHONY: all clean dist install uninstall
+lint:
+	@cppcheck --check-level=exhaustive ${SRC}
+	@cpplint --recursive $(SRC)
+
+.PHONY: all clean dist install uninstall lint
