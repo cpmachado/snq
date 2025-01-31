@@ -6,11 +6,14 @@ include config.mk
 SRC = snq.c
 OBJ = ${SRC:.c=.o}
 
-PKGFILES= ${SRC}\
-	LICENSE\
-	Makefile\
-	README.md\
-	snq.1
+PKGFILES= \
+	config.mk \
+	CPPLINT.cfg \
+	LICENSE \
+	Makefile \
+	README.md \
+	snq.1 \
+	snq.c
 
 all: snq
 
