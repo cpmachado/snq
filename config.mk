@@ -1,6 +1,6 @@
 # See LICENSE for details
 # configuration for the compilation
-VERSION = 0.2.0
+VERSION = 0.3.0
 CC = gcc
 CFLAGS = -W -Wall -pedantic -std=c99 -g
 CPPFLAGS =\

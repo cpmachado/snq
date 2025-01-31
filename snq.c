@@ -1,14 +1,103 @@
 /* See LICENSE for details*/
 /* snq: Simple N Queen solver*/
+#include <errno.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #ifndef VERSION
 #define VERSION "unknown"
 #endif
 
 #define MAXSIDE 8
+
+extern int errno;
+extern char *optarg;
+
+void usage(void);
+
+void version(void);
+
+int queenattacks(int *way, int k);
+
+void snqt(FILE *f, int *way, int k, int n);
+
+void snq(FILE *f, int *way, int n);
+
+int main(int argc, char *argv[]) {
+  FILE *f = NULL;
+  int way[MAXSIDE] = {0};
+  int64_t n = 0;
+  int opt;
+
+  while ((opt = getopt(argc, argv, "hvn:o:")) != -1) {
+    switch (opt) {
+    case 'h':
+      usage();
+      exit(0);
+    case 'v':
+      version();
+      exit(0);
+    case 'n':
+      n = strtoll(optarg, NULL, 10);
+      if (errno) {
+        fprintf(stderr, "%s\n", strerror(errno));
+        usage();
+        exit(1);
+      }
+      if (n < 1 || n > 8) {
+        fprintf(stderr, "Number should be in [1, 8]\n");
+        exit(1);
+      }
+      break;
+    case 'o':
+      if (f) {
+        fprintf(stderr, "Output file was already set\n");
+        fclose(f);
+        exit(1);
+      }
+      if (!(f = fopen(optarg, "w"))) {
+        fprintf(stderr, "%s\n", strerror(errno));
+        exit(1);
+      }
+      break;
+    default:
+      usage();
+      exit(1);
+    }
+  }
+
+  if (!f) {
+    f = stdout;
+  }
+
+  if (!n) {
+    n = 8;
+  }
+
+  snq(f, way, n);
+
+  fclose(f);
+  return 0;
+}
+
+void usage(void) {
+  fprintf(stdout, "snq is a simple N-Queen Problem solver.\n");
+  fprintf(stdout, "Usage: snq [OPTIONS]\n\n");
+
+  fprintf(stdout, "Options:\n");
+  fprintf(stdout, "    -h          -- display help and exit\n");
+  fprintf(stdout, "    -v          -- display version and exit\n");
+  fprintf(stdout, "    -n [NUMBER] -- Length of side(defaults to 8, should be "
+                  "in [1, 8])\n");
+  fprintf(stdout, "    -o [FILE]   -- output to file(defaults to stdout)\n");
+}
+
+void version(void) {
+  fprintf(stdout, "snq-" VERSION " Copyright (C) 2019 Carlos Pinto Machado\n");
+}
 
 int queenattacks(int *way, int k) {
   int i;
@@ -47,85 +136,4 @@ void snq(FILE *f, int *way, int n) {
     way[0] = i;
     snqt(f, way, 1, n);
   }
-}
-
-void usage(void) {
-  fprintf(stdout, "snq is a simple N-Queen Problem solver.\n");
-  fprintf(stdout, "Usage: snq [OPTIONS] SIZE_OF_SIDE(1-8)\n\n");
-
-  fprintf(stdout, "Options:\n");
-  fprintf(stdout, "    -h,--help   -- display help and exit\n");
-  fprintf(stdout, "    --version   -- display version and exit\n");
-  fprintf(stdout, "    -o [FILE]   -- output to file\n\n");
-
-  fprintf(stdout, "Examples:\n");
-  fprintf(stdout, "snq 4           -- solve 4x4 board\n\n");
-  fprintf(stdout, "snq -o out 8    -- solve 8x8 board, output to out\n\n");
-
-  fprintf(stdout, "Report bugs to <cpmachado@protonmail.com> or\n");
-  fprintf(stdout, "file a issue at https://github.com/cpmachado/cpa\n");
-}
-
-void version(void) {
-  fprintf(stdout, "snq " VERSION "\n");
-  fprintf(stdout, "Copyright (C) 2019 Carlos Pinto Machado\n");
-  fprintf(stdout, "Written by Carlos A. Pinto Machado\n");
-}
-
-int main(int argc, char *argv[]) {
-  int c;
-  FILE *f = stdout;
-  int way[MAXSIDE] = {0};
-  int n = 0;
-
-  while (--argc > 0 && (*++argv)[0] == '-') {
-    while ((c = *++argv[0])) {
-      switch (c) {
-      case 'o':
-        ++argv;
-        --argc;
-        if (!(f = fopen(*argv, "w"))) {
-          fprintf(stderr, "Failed to open %s\n", *argv);
-          exit(1);
-        }
-        break;
-      case 'h':
-        usage();
-        exit(0);
-        /* FALLTHROUGH */
-      case '-':
-        if (!strcmp("-help", *argv)) {
-          usage();
-          exit(0);
-        }
-        if (!strcmp("-version", *argv)) {
-          version();
-          exit(0);
-        }
-        /* FALLTHROUGH */
-      default:
-        usage();
-        exit(1);
-      }
-      if (f != stdout) {
-        break;
-      }
-    }
-  }
-
-  if (argc != 1) {
-    usage();
-    exit(1);
-  }
-
-  n = atoi(*argv);
-  if (n < 1 || n > 8) {
-    usage();
-    exit(1);
-  }
-
-  snq(f, way, n);
-
-  fclose(f);
-  return 0;
 }
