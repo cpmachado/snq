@@ -18,7 +18,7 @@ PKGFILES= \
 all: snq
 
 snq: ${OBJ}
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ ${OBJ} $(LDFLAGS)
+	$(CC) -o $@ ${OBJ} $(LDFLAGS)
 
 clean:
 	@echo cleaning
